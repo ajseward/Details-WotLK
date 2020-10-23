@@ -27,6 +27,7 @@ local _math_floor = math.floor --> lua library local
 local _cstr = string.format --> lua library local
 local _ipairs = ipairs --> lua library local
 local _pairs = pairs --> lua library local
+local _next = next --> lua library local
 local _table_sort = table.sort --> lua library local
 local _table_insert = table.insert --> lua library local
 local _unpack = unpack --> lua library local
@@ -479,7 +480,7 @@ local function CreatePluginFrames ()
 			end
 		end
 
-		C_Timer.After (3, function() EncounterDetails:ShowTutorial() end)
+		EncounterDetails:ScheduleTimer ("ShowTutorial", 3)
 
 		DetailsPluginContainerWindow.OpenPlugin (EncounterDetails)
 
@@ -1377,11 +1378,7 @@ function EncounterDetails:OpenAndRefresh (_, segment)
 		end
 
 		local habilidades_usadas = {}
-		local have_pool = false
-		for spellid, _ in _pairs (habilidades_poll) do
-			have_pool = true
-			break
-		end
+		local have_pool = _next(habilidades_poll)
 
 		for index, jogador in _ipairs (DamageContainer._ActorTable) do
 
